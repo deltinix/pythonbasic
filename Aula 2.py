@@ -33,8 +33,6 @@ resultado = valor1 + (valor2 / valor3) * 5
 
 print(resultado)
 
-# Esta é a segunda aula!!! Show de bola
-
 
 '''
 EXERCÍCIO PROPOSTO
