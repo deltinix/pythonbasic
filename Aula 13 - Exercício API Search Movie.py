@@ -30,17 +30,32 @@ def menu():
         exit()
 
 def buscar_nome_filmes():
-    print('')
-    op = input('Digite o nome do filme..:')
-    filmes = requests.get('https://www.omdbapi.com/?s=' + op + '&type=movie' + '&apikey=8ad64395')
-    filme = json.loads(filmes.text)
+    lista = []
+    titulo = input("Digite o nome do filme...:")
+    for i in range(1, 101):
+        try:
+            print('')
+            print('Pesquisando em pagina:', i)
+            url = 'https://www.omdbapi.com/?s=' + titulo + '&type=movie&page=' + str(i) + '&apikey=8ad64395'
+            req = requests.get(url)
+            resposta = json.loads(req.text)
+            if resposta['Response'] == 'True':
+                for busca in resposta['Search']:
+                    tit = busca['Title']
+                    ano = busca['Year']
+                    string = tit + ' (' + ano + ')'
+                    lista.append(string)
+                    print(string)
+            else:
+                print('Fim das paginas')
+                break
+            quant = resposta['totalResults']
+            print("=========================")
+            print(quant, 'títulos no total')
+        except:
+            print('Conexao falhou')
 
-    for busca in filme['Search']:
-        print(busca['Title'])
-    print('')
-    pergunta = str(input('Desejar repetir essa busca? <s/n> '))
-    if pergunta in ['s', 'S', 'sim', 'Sim', 'SIM', 'sIM']:
-        buscar_nome_filmes()
+    return lista
 
 def busca_dados_filme():
     titulo = input("\nDigite o nome do filme..:")
